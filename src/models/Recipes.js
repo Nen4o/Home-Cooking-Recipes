@@ -23,15 +23,15 @@ const recipeSchema = new mongoose.Schema({
         required: true,
     },
     voteList: [{
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     }],
     owner: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     }
 })
 
-const Recipe = mongoose.model('Volcano', recipeSchema);
+const Recipe = mongoose.model('Recipe', recipeSchema);
 
 module.exports = Recipe;

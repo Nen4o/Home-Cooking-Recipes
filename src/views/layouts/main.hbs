@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Cooking Recipes</title>
-    <link rel="stylesheet" href="./styles/styles.css">
+    <link rel="stylesheet" href="/styles/styles.css">
 </head>
 
 <body>
@@ -13,11 +13,11 @@
         <nav>
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="#">Recipes</a></li>
+                <li><a href="/catalog">Recipes</a></li>
                 <li><a href="#">Search</a></li>
 
                 {{#if isAuthenticated}}
-                <li><a href="#">Add Recipe</a></li>
+                <li><a href="/recipes/create">Add Recipe</a></li>
                 <li><a href="/logout">Logout</a></li>
                 {{else}}
                 <li><a href="/login">Login</a></li>
@@ -26,12 +26,20 @@
             </ul>
         </nav>
     </header>
-    
+    <main>
+        <!-- In case of error, you should display div with class "error-container" -->
+        <!-- You can choose to display the first error or all of them (error message/s in your opinion) -->
+        {{#if error}}
+        <div class="error-container">
+            <p>{{error}}</p>
+        </div>
+        {{/if}}
         {{{body}}}
+    </main>
 
     <footer>
         <p>&copy; 2024 Home Cooking Recipes. All rights reserved.</p>
     </footer>
-    </body>
-    
-    </html>
+</body>
+
+</html>
