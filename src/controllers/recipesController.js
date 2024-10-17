@@ -18,6 +18,8 @@ router.post('/recipes/create', async (req, res) => {
         await recipesServices.createRecipe(recipeData);
         res.redirect('/catalog')
     } catch (err) {
+        console.log(recipeData);
+
         const errorMessage = Object.values(err.errors)[0]?.message;
         res.render('recipes/create', { error: errorMessage, recipeData })
     }
@@ -104,6 +106,22 @@ router.get('/recipe/delete/:recipeId', async (req, res) => {
         }
         await recipesServices.deleteRecipe(recipeId);
         res.redirect('/catalog');
+    } catch (err) {
+        console.log(err);
+
+    }
+})
+
+router.get('/search', async (req, res) => {
+
+    const query = req.query;
+    try {
+
+        let recipes = await recipesServices.getAllRecipes().lean();
+        if (query.name) {
+            recipes = recipes.filter(recipe => recipe.name.toLowerCase().includes(query.name.toLowerCase()));
+        }
+        res.render('recipes/search', { recipes });
     } catch (err) {
         console.log(err);
 

@@ -24,8 +24,8 @@ router.post('/register', async (req, res) => {
         await authServices.createUser(registerData);
         res.redirect('/login');
     } catch (err) {
-        console.log(err.message);
-        res.redirect('/register')
+        const errorMessage = err.errors ? Object.values(err.errors)[0]?.message : err.message;
+        res.render('auth/register', { error: errorMessage, registerData });
     }
 })
 
@@ -61,9 +61,9 @@ router.post('/login', async (req, res) => {
 
         res.redirect('/');
 
-    } catch (error) {
-        console.error(error);
-        res.status(400).redirect('/login');
+    } catch (err) {
+        const errorMessage = err.errors ? Object.values(err.errors)[0]?.message : err.message;
+        res.render('auth/login', { error: errorMessage, loginData });
     }
 })
 
