@@ -68,4 +68,46 @@ router.get('/recipe/recommend/:recipeId', async (req, res) => {
     }
 })
 
+router.get('/recipe/edit/:recipeId', async (req, res) => {
+    const recipeId = req.params.recipeId;
+
+    try {
+        const recipe = await recipesServices.getRecipeById(recipeId).lean();
+        if (res.user?._id != recipe.owner) {
+            res.redirect('/404');
+        }
+        res.render('recipes/edit', { recipe });
+    } catch (err) {
+        console.log(err);
+    }
+})
+
+router.post('/recipe/edit/:recipeId', async (req, res) => {
+    const recipeId = req.params.recipeId;
+    const updatedRecipe = req.body;
+
+    try {
+        await recipesServices.updateRecipe(recipeId, updatedRecipe);
+        res.redirect('/recipe/details/' + recipeId);
+    } catch (err) {
+        const errorMessage = Object.values(err.errors)[0]?.message;
+        res.render('recipes/edit', { error: errorMessage, recipe: updatedRecipe });
+    }
+})
+
+router.get('/recipe/delete/:recipeId', async (req, res) => {
+    const recipeId = req.params.recipeId;
+    try {
+        const recipe = await recipesServices.getRecipeById(recipeId);
+        if (res.user?._id != recipe.owner) {
+            return res.redirect('/404');
+        }
+        await recipesServices.deleteRecipe(recipeId);
+        res.redirect('/catalog');
+    } catch (err) {
+        console.log(err);
+
+    }
+})
+
 module.exports = router;

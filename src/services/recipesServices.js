@@ -13,7 +13,11 @@ const getRecipeById = (recipeId) => {
 }
 
 const updateRecipe = (recipeId, updateData) => {
-    return Recipe.findByIdAndUpdate(recipeId, updateData);
+    return Recipe.findByIdAndUpdate(recipeId, updateData, { runValidators: true });
+}
+
+const deleteRecipe = (recipeId) => {
+    return Recipe.findByIdAndDelete(recipeId);
 }
 
 module.exports = {
@@ -21,4 +25,5 @@ module.exports = {
     getAllRecipes,
     getRecipeById,
     updateRecipe,
+    deleteRecipe,
 }

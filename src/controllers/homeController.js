@@ -4,7 +4,7 @@ const recipesServices = require('../services/recipesServices');
 router.get('/', async (req, res) => {
     try {
         let recipes = await recipesServices.getAllRecipes().lean();
-        recipes = recipes.splice(0, 3);
+        recipes = recipes.splice(recipes.length - 3, recipes.length);
         res.render('home/home', { recipes })
     } catch (err) {
         console.log(err);
